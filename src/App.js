@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
 
+import './App.css';
+import Computer from './components/Computer';
+import LandingPage from './components/LandingPage';
+import Main from './components/Main';
+import { Routes,Route } from 'react-router-dom';
+import io from 'socket.io-client'
+const socket = await io.connect('https://chessbackend-fm6u.onrender.com')
+// const socket =  io.connect('http://localhost:3001')
 function App() {
+  
+  console.log(socket.id)  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>    
+          <Route path="/" element={<LandingPage socket={socket}/>} />
+          <Route path="/startgame/opponent/:id/:color" element={<Main socket={socket}/>} />  
+          <Route path='/computer' element={<Computer/>}/>  
+      </Routes>    
     </div>
   );
 }
